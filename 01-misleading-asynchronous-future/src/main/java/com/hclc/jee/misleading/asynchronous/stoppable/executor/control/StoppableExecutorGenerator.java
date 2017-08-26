@@ -23,14 +23,14 @@ import static javax.ejb.ConcurrencyManagementType.BEAN;
 public class StoppableExecutorGenerator {
     private final static int BATCH_SIZE = 1000;
     private final BlockingQueue<String> ids = new LinkedBlockingQueue<>(1000 * BATCH_SIZE);
-    private Future<?> generationFuture;
+    private Future<?> future;
 
     @Resource
     ManagedExecutorService managedExecutorService;
 
     @PostConstruct
     public void startGeneration() {
-        generationFuture = managedExecutorService.submit(() -> generate());
+        future = managedExecutorService.submit(() -> generate());
     }
 
     private void generate() {
@@ -53,6 +53,6 @@ public class StoppableExecutorGenerator {
 
     @PreDestroy
     public void stopGeneration() {
-        generationFuture.cancel(true);
+        future.cancel(true);
     }
 }

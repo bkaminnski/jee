@@ -10,18 +10,18 @@ import java.util.concurrent.Future;
 @Singleton
 @Startup
 public class NonblockingGeneratorLifecycle {
-    private Future<Void> generationFuture;
+    private Future<Void> future;
 
     @Inject
     NonblockingGenerator generator;
 
     @PostConstruct
     public void startGeneration() {
-        generationFuture = generator.generate();
+        future = generator.generate();
     }
 
     @PreDestroy
     public void stopGeneration() {
-        generationFuture.cancel(true);
+        future.cancel(true);
     }
 }

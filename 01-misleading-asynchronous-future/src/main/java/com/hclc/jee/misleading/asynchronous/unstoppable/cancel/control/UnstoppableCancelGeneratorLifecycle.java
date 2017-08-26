@@ -9,23 +9,24 @@ import java.util.concurrent.Future;
 import java.util.logging.Logger;
 
 @Singleton
-@Startup
+// Uncomment the line below to see that you are not able to undeploy the app once this singleton is running.
+// @Startup
 public class UnstoppableCancelGeneratorLifecycle {
     private final static Logger LOG = Logger.getLogger(UnstoppableCancelGeneratorLifecycle.class.getName());
-    private Future<Void> generationFuture;
+    private Future<Void> future;
 
     @Inject
     UnstoppableCancelGenerator generator;
 
     @PostConstruct
     public void startGeneration() {
-        generationFuture = generator.generate();
+        future = generator.generate();
     }
 
     @PreDestroy
     public void failingStop() {
         LOG.info("!!! stopping generation...");
-        boolean cancellationResult = generationFuture.cancel(true);
-        LOG.info("!!! SURPRISE: generationFuture was not cancelled; cancellationResult=" + cancellationResult);
+        boolean cancellationResult = future.cancel(true);
+        LOG.info("!!! SURPRISE: future was not cancelled; cancellationResult=" + cancellationResult);
     }
 }

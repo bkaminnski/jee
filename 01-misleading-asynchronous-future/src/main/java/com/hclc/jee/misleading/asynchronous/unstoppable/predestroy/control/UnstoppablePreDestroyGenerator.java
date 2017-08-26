@@ -23,14 +23,14 @@ public class UnstoppablePreDestroyGenerator {
     private final static Logger LOG = Logger.getLogger(UnstoppablePreDestroyGenerator.class.getName());
     private final static int BATCH_SIZE = 1000;
     private final BlockingQueue<String> ids = new LinkedBlockingQueue<>(1000 * BATCH_SIZE);
-    private Future<Void> generationFuture;
+    private Future<Void> future;
 
     @Resource
     SessionContext sessionContext;
 
     @PostConstruct
     public void startGeneration() {
-        generationFuture = sessionContext.getBusinessObject(UnstoppablePreDestroyGenerator.class).generate();
+        future = sessionContext.getBusinessObject(UnstoppablePreDestroyGenerator.class).generate();
     }
 
     @Asynchronous
@@ -55,6 +55,6 @@ public class UnstoppablePreDestroyGenerator {
 
     @PreDestroy
     public void failingStop() {
-        LOG.info("!!! SURPRISE: you will never see this log line - there is even no point in trying to cancel the future here");
+        LOG.info("!!! SURPRISE: you will never get here");
     }
 }
