@@ -15,7 +15,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 @ConcurrencyManagement(ConcurrencyManagementType.BEAN)
 @TransactionManagement(TransactionManagementType.BEAN)
 public class NonblockingGenerator {
-    private final static int BATCH_SIZE = 1000;
+    private static final int BATCH_SIZE = 1000;
     private final BlockingQueue<String> ids = new LinkedBlockingQueue<>(1000 * BATCH_SIZE);
 
     @Resource

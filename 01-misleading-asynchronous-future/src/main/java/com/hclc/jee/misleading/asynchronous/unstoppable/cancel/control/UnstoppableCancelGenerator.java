@@ -14,7 +14,7 @@ import static java.lang.Thread.currentThread;
 @ConcurrencyManagement(ConcurrencyManagementType.BEAN)
 @TransactionManagement(TransactionManagementType.BEAN)
 public class UnstoppableCancelGenerator {
-    private final static int BATCH_SIZE = 1000;
+    private static final int BATCH_SIZE = 1000;
     private final BlockingQueue<String> ids = new LinkedBlockingQueue<>(1000 * BATCH_SIZE);
 
     @Asynchronous

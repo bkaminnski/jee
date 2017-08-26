@@ -20,8 +20,8 @@ import static java.lang.Thread.currentThread;
 // Uncomment the line below to see that you are not able to undeploy the app once this singleton is running.
 // @Startup
 public class UnstoppablePreDestroyGenerator {
-    private final static Logger LOG = Logger.getLogger(UnstoppablePreDestroyGenerator.class.getName());
-    private final static int BATCH_SIZE = 1000;
+    private static final Logger LOG = Logger.getLogger(UnstoppablePreDestroyGenerator.class.getName());
+    private static final int BATCH_SIZE = 1000;
     private final BlockingQueue<String> ids = new LinkedBlockingQueue<>(1000 * BATCH_SIZE);
     private Future<Void> future;
 

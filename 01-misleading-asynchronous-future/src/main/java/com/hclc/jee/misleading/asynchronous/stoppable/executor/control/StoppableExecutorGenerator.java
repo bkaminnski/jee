@@ -21,7 +21,7 @@ import static javax.ejb.ConcurrencyManagementType.BEAN;
 @ConcurrencyManagement(BEAN)
 @Startup
 public class StoppableExecutorGenerator {
-    private final static int BATCH_SIZE = 1000;
+    private static final int BATCH_SIZE = 1000;
     private final BlockingQueue<String> ids = new LinkedBlockingQueue<>(1000 * BATCH_SIZE);
     private Future<?> future;
 

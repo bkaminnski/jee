@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 // Uncomment the line below to see that you are not able to undeploy the app once this singleton is running.
 // @Startup
 public class UnstoppableCancelGeneratorLifecycle {
-    private final static Logger LOG = Logger.getLogger(UnstoppableCancelGeneratorLifecycle.class.getName());
+    private static final Logger LOG = Logger.getLogger(UnstoppableCancelGeneratorLifecycle.class.getName());
     private Future<Void> future;
 
     @Inject
