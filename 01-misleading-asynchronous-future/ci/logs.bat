@@ -1,0 +1,1 @@
+docker exec -it wildfly-configured /bin/bash -c "less /opt/wildfly-10.1.0.Final/standalone/log/server.log"

@@ -1,0 +1,8 @@
+nb-configuration.xml
+node_modules
+nbproject
+*.iml
+.idea
+.settings
+target
+.vscode
