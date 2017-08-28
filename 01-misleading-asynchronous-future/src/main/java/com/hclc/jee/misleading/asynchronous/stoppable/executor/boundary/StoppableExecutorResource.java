@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Stateless
-@Path(value = "stoppableExecutor")
+@Path(value = "executor")
 public class StoppableExecutorResource {
 
     @Inject
