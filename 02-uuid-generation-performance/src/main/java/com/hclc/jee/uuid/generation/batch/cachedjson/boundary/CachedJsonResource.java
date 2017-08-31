@@ -1,6 +1,6 @@
-package com.hclc.jee.uuid.generation.cachedjson.boundary;
+package com.hclc.jee.uuid.generation.batch.cachedjson.boundary;
 
-import com.hclc.jee.uuid.generation.cachedjson.control.CachedJsonGenerator;
+import com.hclc.jee.uuid.generation.batch.cachedjson.control.CachedJsonGenerator;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;

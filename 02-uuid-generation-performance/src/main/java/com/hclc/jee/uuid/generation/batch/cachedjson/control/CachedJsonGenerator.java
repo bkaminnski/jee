@@ -1,4 +1,4 @@
-package com.hclc.jee.uuid.generation.cachedjson.control;
+package com.hclc.jee.uuid.generation.batch.cachedjson.control;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
