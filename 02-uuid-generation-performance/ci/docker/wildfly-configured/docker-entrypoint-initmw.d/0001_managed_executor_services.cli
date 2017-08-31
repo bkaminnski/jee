@@ -1,0 +1,8 @@
+embed-server --std-out=echo --server-config=standalone-full.xml
+
+/subsystem=ee/managed-executor-service=oneByOneGeneratorExecutor:add(jndi-name="java:jboss/ee/concurrency/executor/oneByOneGeneratorExecutor", core-threads=4, hung-task-threshold=0, long-running-tasks=true, keepalive-time=0)
+/subsystem=ee/managed-executor-service=batchSingleQueueGeneratorExecutor:add(jndi-name="java:jboss/ee/concurrency/executor/batchSingleQueueGeneratorExecutor", core-threads=4, hung-task-threshold=0, long-running-tasks=true, keepalive-time=0)
+/subsystem=ee/managed-executor-service=batchMultipleQueuesGeneratorExecutor:add(jndi-name="java:jboss/ee/concurrency/executor/batchMultipleQueuesGeneratorExecutor", core-threads=4, hung-task-threshold=0, long-running-tasks=true, keepalive-time=0)
+/subsystem=ee/managed-executor-service=cachedJsonGeneratorExecutor:add(jndi-name="java:jboss/ee/concurrency/executor/cachedJsonGeneratorExecutor", core-threads=4, hung-task-threshold=0, long-running-tasks=true, keepalive-time=0)
+
+stop-embedded-server
