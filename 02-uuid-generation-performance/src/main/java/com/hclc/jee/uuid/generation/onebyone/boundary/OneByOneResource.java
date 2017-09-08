@@ -1,10 +1,12 @@
 package com.hclc.jee.uuid.generation.onebyone.boundary;
 
 
+import com.hclc.jee.uuid.generation.metrics.control.GenerationTimeMetricInterceptor;
 import com.hclc.jee.uuid.generation.onebyone.control.OneByOneGenerator;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.interceptor.Interceptors;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -14,6 +16,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Stateless
 @Path(value = "oneByOne")
+@Interceptors(GenerationTimeMetricInterceptor.class)
 public class OneByOneResource {
 
     @Inject

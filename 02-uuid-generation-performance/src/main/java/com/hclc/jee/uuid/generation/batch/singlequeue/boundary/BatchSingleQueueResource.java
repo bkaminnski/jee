@@ -1,9 +1,11 @@
 package com.hclc.jee.uuid.generation.batch.singlequeue.boundary;
 
 import com.hclc.jee.uuid.generation.batch.singlequeue.control.BatchSingleQueueGenerator;
+import com.hclc.jee.uuid.generation.metrics.control.GenerationTimeMetricInterceptor;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.interceptor.Interceptors;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -13,6 +15,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Stateless
 @Path(value = "batchSingleQueue")
+@Interceptors(GenerationTimeMetricInterceptor.class)
 public class BatchSingleQueueResource {
 
     @Inject

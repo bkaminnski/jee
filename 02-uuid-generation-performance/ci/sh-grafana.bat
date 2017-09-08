@@ -1,0 +1,1 @@
+docker exec -it grafana-configured /bin/sh

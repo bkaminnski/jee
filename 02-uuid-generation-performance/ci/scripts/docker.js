@@ -81,6 +81,6 @@ function DockerContainers() {
 
     this.queryForLastLogs = function(container) {
         $EXEC('docker logs --tail=100 ' + container);
-        return $OUT;
+        return $OUT + "\n" + $ERR;
     }
 }

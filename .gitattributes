@@ -1,3 +1,4 @@
 # bash scripts with LF
 *.sh text eol=lf
 *.conf text eol=lf
+*.yml text eol=lf
