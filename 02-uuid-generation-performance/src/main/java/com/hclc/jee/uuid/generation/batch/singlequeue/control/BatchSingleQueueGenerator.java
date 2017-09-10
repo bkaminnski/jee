@@ -21,6 +21,7 @@ import java.util.stream.Stream;
 
 import static com.hclc.jee.uuid.generation.Parameters.BATCH_SINGLE_QUEUE_GENERATION_THREADS;
 import static com.hclc.jee.uuid.generation.Parameters.BATCH_SINGLE_QUEUE_NUMBER_OF_CACHED_BATCHES;
+import static com.hclc.jee.uuid.generation.Parameters.ONE_BY_ONE_NUMBER_OF_CACHED_IDS;
 
 @Singleton
 @ConcurrencyManagement(ConcurrencyManagementType.BEAN)
@@ -54,6 +55,10 @@ public class BatchSingleQueueGenerator {
                 .add("size", batches.size())
                 .add("max", BATCH_SINGLE_QUEUE_NUMBER_OF_CACHED_BATCHES)
                 .build();
+    }
+
+    public double fillFactor() {
+        return 1.0 * batches.size() / BATCH_SINGLE_QUEUE_NUMBER_OF_CACHED_BATCHES;
     }
 
     @PreDestroy

@@ -1,7 +1,7 @@
 package com.hclc.jee.uuid.generation.batch.cachedjson.boundary;
 
 import com.hclc.jee.uuid.generation.batch.cachedjson.control.CachedJsonGenerator;
-import com.hclc.jee.uuid.generation.metrics.control.GenerationTimeMetricInterceptor;
+import com.hclc.jee.uuid.generation.metrics.control.GenerationMetricInterceptor;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -15,7 +15,6 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Stateless
 @Path(value = "cachedJson")
-@Interceptors(GenerationTimeMetricInterceptor.class)
 public class CachedJsonResource {
 
     @Inject
@@ -23,7 +22,8 @@ public class CachedJsonResource {
 
     @GET
     @Produces(APPLICATION_JSON)
-    public Response batchSingleQueue() {
+    @Interceptors(GenerationMetricInterceptor.class)
+    public Response cachedJson() {
         return Response.ok(cachedJsonGenerator.getNextBatch()).build();
     }
 

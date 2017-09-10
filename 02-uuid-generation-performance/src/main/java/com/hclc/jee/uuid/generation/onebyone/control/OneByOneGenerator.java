@@ -59,6 +59,10 @@ public class OneByOneGenerator {
                 .build();
     }
 
+    public double fillFactor() {
+        return 1.0 * ids.size() / ONE_BY_ONE_NUMBER_OF_CACHED_IDS;
+    }
+
     @PreDestroy
     public void stopGeneration() {
         futures.stream().forEach(f -> f.cancel(true));

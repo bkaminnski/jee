@@ -54,6 +54,10 @@ public class CachedJsonGenerator {
                 .build();
     }
 
+    public double fillFactor() {
+        return 1.0 * batches.size() / CACHED_JSON_NUMBER_OF_CACHED_BATCHES;
+    }
+
     @PreDestroy
     public void stopGeneration() {
         threads.stream().forEach(CachedJsonGenerationThread::stopGeneration);

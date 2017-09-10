@@ -1,6 +1,6 @@
 package com.hclc.jee.uuid.generation.straightforward.boundary;
 
-import com.hclc.jee.uuid.generation.metrics.control.GenerationTimeMetricInterceptor;
+import com.hclc.jee.uuid.generation.metrics.control.GenerationMetricInterceptor;
 import com.hclc.jee.uuid.generation.straightforward.control.StraightforwardGenerator;
 
 import javax.ejb.Stateless;
@@ -15,7 +15,6 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Stateless
 @Path(value = "straightforward")
-@Interceptors(GenerationTimeMetricInterceptor.class)
 public class StraightforwardResource {
 
     @Inject
@@ -23,6 +22,7 @@ public class StraightforwardResource {
 
     @GET
     @Produces(APPLICATION_JSON)
+    @Interceptors(GenerationMetricInterceptor.class)
     public Response straightforward() {
         return Response.ok(straightforwardGenerator.getNextBatch()).build();
     }

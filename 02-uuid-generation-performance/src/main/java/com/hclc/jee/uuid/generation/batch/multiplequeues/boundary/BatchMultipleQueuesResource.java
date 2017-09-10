@@ -1,7 +1,7 @@
 package com.hclc.jee.uuid.generation.batch.multiplequeues.boundary;
 
 import com.hclc.jee.uuid.generation.batch.multiplequeues.control.BatchMultipleQueuesGenerator;
-import com.hclc.jee.uuid.generation.metrics.control.GenerationTimeMetricInterceptor;
+import com.hclc.jee.uuid.generation.metrics.control.GenerationMetricInterceptor;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -15,7 +15,6 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Stateless
 @Path(value = "batchMultipleQueues")
-@Interceptors(GenerationTimeMetricInterceptor.class)
 public class BatchMultipleQueuesResource {
 
     @Inject
@@ -23,6 +22,7 @@ public class BatchMultipleQueuesResource {
 
     @GET
     @Produces(APPLICATION_JSON)
+    @Interceptors(GenerationMetricInterceptor.class)
     public Response batchMultipleQueues() {
         return Response.ok(batchMultipleQueuesGenerator.getNextBatch()).build();
     }

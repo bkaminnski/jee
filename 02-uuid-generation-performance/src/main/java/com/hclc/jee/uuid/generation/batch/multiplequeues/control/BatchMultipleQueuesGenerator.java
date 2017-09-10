@@ -55,14 +55,26 @@ public class BatchMultipleQueuesGenerator {
     public JsonObject status() {
         return createObjectBuilder()
                 .add("summary", createObjectBuilder()
-                        .add("size", threads.stream().mapToInt(BatchMultipleQueuesGenerationThread::getCurrentSize).sum())
-                        .add("max", BATCH_MULTIPLE_QUEUES_GENERATION_THREADS * BATCH_MULTIPLE_QUEUES_NUMBER_OF_CACHED_BATCHES))
+                        .add("size", aggregatedQueuesCurrentSize())
+                        .add("max", aggregatedQueuesMaxSize()))
                 .add("threads", threads.stream()
                         .map(t -> createObjectBuilder()
                                 .add("size", t.getCurrentSize())
                                 .add("max", BATCH_MULTIPLE_QUEUES_NUMBER_OF_CACHED_BATCHES))
                         .collect(Json::createArrayBuilder, JsonArrayBuilder::add, JsonArrayBuilder::add))
                 .build();
+    }
+
+    private int aggregatedQueuesCurrentSize() {
+        return threads.stream().mapToInt(BatchMultipleQueuesGenerationThread::getCurrentSize).sum();
+    }
+
+    private int aggregatedQueuesMaxSize() {
+        return BATCH_MULTIPLE_QUEUES_GENERATION_THREADS * BATCH_MULTIPLE_QUEUES_NUMBER_OF_CACHED_BATCHES;
+    }
+
+    public double fillFactor() {
+        return 1.0 * aggregatedQueuesCurrentSize() / (aggregatedQueuesMaxSize());
     }
 
     @PreDestroy

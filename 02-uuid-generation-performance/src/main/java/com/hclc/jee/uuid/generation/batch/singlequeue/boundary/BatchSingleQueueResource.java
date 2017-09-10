@@ -1,7 +1,7 @@
 package com.hclc.jee.uuid.generation.batch.singlequeue.boundary;
 
 import com.hclc.jee.uuid.generation.batch.singlequeue.control.BatchSingleQueueGenerator;
-import com.hclc.jee.uuid.generation.metrics.control.GenerationTimeMetricInterceptor;
+import com.hclc.jee.uuid.generation.metrics.control.GenerationMetricInterceptor;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -15,7 +15,6 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Stateless
 @Path(value = "batchSingleQueue")
-@Interceptors(GenerationTimeMetricInterceptor.class)
 public class BatchSingleQueueResource {
 
     @Inject
@@ -23,6 +22,7 @@ public class BatchSingleQueueResource {
 
     @GET
     @Produces(APPLICATION_JSON)
+    @Interceptors(GenerationMetricInterceptor.class)
     public Response batchSingleQueue() {
         return Response.ok(batchSingleQueueGenerator.getNextBatch()).build();
     }
