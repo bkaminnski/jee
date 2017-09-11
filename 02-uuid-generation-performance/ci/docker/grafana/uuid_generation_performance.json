@@ -44,7 +44,7 @@
 		"rows": [
 			{
 				"collapse": false,
-				"height": "250",
+				"height": "200",
 				"panels": [
 					{
 						"aliasColors": {},
@@ -214,7 +214,19 @@
 								"show": true
 							}
 						]
-					},
+					}
+				],
+				"repeat": null,
+				"repeatIteration": null,
+				"repeatRowId": null,
+				"showTitle": false,
+				"title": "Dashboard Row",
+				"titleSize": "h6"
+			},
+			{
+				"collapse": false,
+				"height": "200",
+				"panels": [
 					{
 						"aliasColors": {},
 						"bars": false,
@@ -395,7 +407,7 @@
 			},
 			{
 				"collapse": false,
-				"height": 250,
+				"height": "200",
 				"panels": [
 					{
 						"aliasColors": {},
@@ -515,7 +527,7 @@
 						"steppedLine": false,
 						"targets": [
 							{
-								"expr": "longest_duration_within_last_n_generations{n=\"1000\"}",
+								"expr": "longest_duration_within_last_n_seconds{n=\"5\"}",
 								"format": "time_series",
 								"interval": "",
 								"intervalFactor": 1,
@@ -527,7 +539,7 @@
 						"thresholds": [],
 						"timeFrom": null,
 						"timeShift": null,
-						"title": "Longest duration within last n generations, n=1000",
+						"title": "Longest duration within last n seconds, n=5",
 						"tooltip": {
 							"shared": true,
 							"sort": 0,
@@ -608,6 +620,6 @@
 		},
 		"timezone": "",
 		"title": "UUID Generation Performance",
-		"version": 1
+		"version": 3
 	}
 }
