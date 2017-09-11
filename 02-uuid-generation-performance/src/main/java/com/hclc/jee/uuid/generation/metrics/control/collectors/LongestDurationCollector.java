@@ -4,32 +4,31 @@ import com.hclc.jee.uuid.generation.metrics.entity.GenerationMetricMessage;
 import io.prometheus.client.Gauge;
 
 import javax.ejb.Singleton;
-import java.util.ArrayDeque;
 import java.util.HashMap;
-import java.util.Queue;
+
+import static java.time.temporal.ChronoUnit.SECONDS;
 
 @Singleton
 public class LongestDurationCollector implements GenerationsMetricCollector {
-    private static final int NUMBER_OF_OBSERVATIONS = 1000;
+    private static final int TIME_TO_KEEP_OBSERVATION_IN_SECONDS = 5;
     private Gauge longestDurationGauge;
-    private HashMap<String, Queue<Double>> lastNObservationsPerGeneratorName = new HashMap<>();
+    private HashMap<String, DelayedObservations> observationsPerGeneratorName = new HashMap<>();
 
     @Override
     public void register() {
         longestDurationGauge = Gauge.build()
-                .name("longest_duration_within_last_n_generations")
-                .help("Longest duration within last n generations")
+                .name("longest_duration_within_last_n_seconds")
+                .help("Longest duration within last n seconds")
                 .labelNames("generator_name", "n")
                 .register();
     }
 
     @Override
     public void collectGenerationTimeMetric(GenerationMetricMessage metricMessage) {
-        Queue<Double> lastNObservations = lastNObservationsPerGeneratorName.computeIfAbsent(metricMessage.getGeneratorName(), k -> new ArrayDeque<>(NUMBER_OF_OBSERVATIONS + 1));
-        lastNObservations.add(metricMessage.getDurationInSeconds());
-        if (lastNObservations.size() > NUMBER_OF_OBSERVATIONS) {
-            lastNObservations.poll();
-        }
-        longestDurationGauge.labels(metricMessage.getGeneratorName(), String.valueOf(NUMBER_OF_OBSERVATIONS)).set(lastNObservations.stream().max(Double::compare).get());
+        DelayedObservations observations = observationsPerGeneratorName.computeIfAbsent(metricMessage.getGeneratorName(), k -> new DelayedObservations(TIME_TO_KEEP_OBSERVATION_IN_SECONDS, SECONDS));
+        observations.observe(metricMessage.getDurationInSeconds());
+        longestDurationGauge
+                .labels(metricMessage.getGeneratorName(), String.valueOf(TIME_TO_KEEP_OBSERVATION_IN_SECONDS))
+                .set(observations.max());
     }
 }
