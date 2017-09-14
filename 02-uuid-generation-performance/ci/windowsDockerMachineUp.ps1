@@ -22,6 +22,7 @@ if ($dockerMachines -Like "*$machineName*") {
 	&"C:\Program Files\Oracle\VirtualBox\VBoxManage" controlvm "$machineName" natpf1 "Wildfly Admin Console,tcp,,9990,,9990"
 	&"C:\Program Files\Oracle\VirtualBox\VBoxManage" controlvm "$machineName" natpf1 "Prometheus,tcp,,9090,,9090"
 	&"C:\Program Files\Oracle\VirtualBox\VBoxManage" controlvm "$machineName" natpf1 "Grafana,tcp,,3000,,3000"
+	&"C:\Program Files\Oracle\VirtualBox\VBoxManage" controlvm "$machineName" natpf1 "Alertmanager,tcp,,9093,,9093"
 	echo "Setting ports forwarding finished."
 	echo ""
 }

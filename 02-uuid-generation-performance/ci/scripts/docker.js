@@ -84,3 +84,25 @@ function DockerContainers() {
         return $OUT + "\n" + $ERR;
     }
 }
+
+function DockerNetworks() {
+    this.existingNetworks = loadExistingNetworks();
+
+    function loadExistingNetworks () {
+        $EXEC('docker network ls');
+        return $OUT;
+    }
+
+    this.assureExisists = function(network) {
+        if (this.exists(network)) {
+            print(network + ' network already exists');
+            return;
+        }
+        print('creating ' + network + ' network...');
+        new Command('.', 'docker network create ' + network).execute();
+    }
+
+    this.exists = function(network) {
+        return this.existingNetworks.indexOf(network) >= 0;
+    }
+}

@@ -4,7 +4,11 @@ load("./scripts/docker.js");
 load('./scripts/command.js');
 
 function mwUp() {
+	var dockerNetworks = new DockerNetworks();
+	dockerNetworks.assureExisists('jee');
+
 	var dockerImages = new DockerImages();
+	dockerImages.build('./docker/alertmanager', 'alertmanager-configured');
 	dockerImages.build('./docker/prometheus', 'prometheus-configured');
 	dockerImages.build('./docker/grafana', 'grafana-configured');
 	dockerImages.build('./docker/java', 'java');
@@ -14,13 +18,16 @@ function mwUp() {
 	var dockerContainers = new DockerContainers();
 	var configureGrafanaFirstTime = !dockerContainers.exists('grafana-configured');
 
-	dockerContainers.run('wildfly-configured', 'wildfly-configured', '-p 8080:8080 -p 9990:9990 -p 8787:8787');
+	dockerContainers.run('wildfly-configured', 'wildfly-configured', '-p 8080:8080 -p 9990:9990 -p 8787:8787 --network jee');
 	dockerContainers.waitFor('wildfly-configured', 'WildFly Full 10.1.0.Final (WildFly Core 2.2.0.Final) started');
 
-	dockerContainers.run('prometheus-configured', 'prometheus-configured', '-p 9090:9090 --link=wildfly-configured');
+	dockerContainers.run('alertmanager-configured', 'alertmanager-configured', '-p 9093:9093 --network jee');
+	dockerContainers.waitFor('alertmanager-configured', 'Listening on :9093');
+
+	dockerContainers.run('prometheus-configured', 'prometheus-configured', '-p 9090:9090 --network jee');
 	dockerContainers.waitFor('prometheus-configured', 'Listening on :9090');
 
-	dockerContainers.run('grafana-configured', 'grafana-configured', '-p 3000:3000 --link=prometheus-configured');
+	dockerContainers.run('grafana-configured', 'grafana-configured', '-p 3000:3000 --network jee');
 	dockerContainers.waitFor('grafana-configured', 'Initializing HTTP Server');
 	if (configureGrafanaFirstTime) {
 		configureGrafana();

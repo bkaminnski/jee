@@ -1,0 +1,1 @@
+docker exec -it alertmanager-configured /bin/sh

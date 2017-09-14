@@ -1,0 +1,8 @@
+ALERT UUIDGenerationQueueFillFactorDropped
+  IF queue_fill_factor{generator_name="CachedJsonGenerator"} < 0.5
+  FOR 5s
+  LABELS { severity = "warning" }
+  ANNOTATIONS {
+    summary = "UUID generation queue fill factor dropped below 0.5 on {{ $labels.instance }} instance.",
+    description = "Queue fill factor dropped below 0.5. Expect significant drop in UUID generation performance. Current value of queue fill: {{ $value }}. ",
+  }
