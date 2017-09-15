@@ -1,4 +1,4 @@
-# Docs: https://prometheus.io/docs/operating/configuration/
+# Documentation: https://prometheus.io/docs/operating/configuration/
 
 global:
   evaluation_interval: 5s

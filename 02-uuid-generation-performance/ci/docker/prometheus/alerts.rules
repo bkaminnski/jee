@@ -4,5 +4,14 @@ ALERT UUIDGenerationQueueFillFactorDropped
   LABELS { severity = "warning" }
   ANNOTATIONS {
     summary = "UUID generation queue fill factor dropped below 0.5 on {{ $labels.instance }} instance.",
-    description = "Queue fill factor dropped below 0.5. Expect significant drop in UUID generation performance. Current value of queue fill: {{ $value }}. ",
+    description = "Queue fill factor dropped below 0.5. Expect significant drop in UUID generation performance. Current value of queue fill: {{ $value }}.",
+  }
+
+ALERT UUIDGenerationLongResponseTime
+  IF longest_duration_within_last_n_seconds{generator_name="CachedJsonResource",n="5"} > 1
+  FOR 5s
+  LABELS { severity = "severe" }
+  ANNOTATIONS {
+    summary = "Response time of UUID generator on {{ $labels.instance }} instance is longer than 1s.",
+    description = "Response time of UUID generation extended significantly. Longest response time from last 5 seconds: {{ $value }}.",
   }
