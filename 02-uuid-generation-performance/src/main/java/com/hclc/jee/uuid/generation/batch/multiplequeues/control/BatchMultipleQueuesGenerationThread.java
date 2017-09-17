@@ -6,15 +6,15 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import static com.hclc.jee.uuid.generation.Parameters.BATCH_MULTIPLE_QUEUES_NUMBER_OF_CACHED_BATCHES;
+import static java.lang.Thread.currentThread;
 
 class BatchMultipleQueuesGenerationThread implements Runnable {
     private final BlockingQueue<String[]> batches = new LinkedBlockingQueue<>(BATCH_MULTIPLE_QUEUES_NUMBER_OF_CACHED_BATCHES);
-    private volatile boolean continueGeneration = true;
 
     @Override
     public void run() {
         try {
-            while (continueGeneration) {
+            while (!currentThread().isInterrupted()) {
                 batches.put(UuidsGenerator.generateBatch());
             }
         } catch (InterruptedException ex) {
@@ -32,9 +32,5 @@ class BatchMultipleQueuesGenerationThread implements Runnable {
 
     int getCurrentSize() {
         return batches.size();
-    }
-
-    void stopGeneration() {
-        continueGeneration = false;
     }
 }

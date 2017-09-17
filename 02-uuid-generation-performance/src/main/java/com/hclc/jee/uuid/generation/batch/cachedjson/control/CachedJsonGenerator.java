@@ -17,14 +17,14 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import static com.hclc.jee.uuid.generation.Parameters.*;
+import static com.hclc.jee.uuid.generation.Parameters.CACHED_JSON_GENERATION_THREADS;
+import static com.hclc.jee.uuid.generation.Parameters.CACHED_JSON_NUMBER_OF_CACHED_BATCHES;
 
 @Singleton
 @ConcurrencyManagement(ConcurrencyManagementType.BEAN)
 @Startup
 public class CachedJsonGenerator {
     private final BlockingQueue<JsonArray> batches = new LinkedBlockingQueue<>(CACHED_JSON_NUMBER_OF_CACHED_BATCHES);
-    private List<CachedJsonGenerationThread> threads = new ArrayList<>(CACHED_JSON_GENERATION_THREADS);
     private List<Future<?>> futures = new ArrayList<>(CACHED_JSON_GENERATION_THREADS);
 
     @Resource(lookup = "java:jboss/ee/concurrency/executor/cachedJsonGeneratorExecutor")
@@ -33,9 +33,7 @@ public class CachedJsonGenerator {
     @PostConstruct
     public void startGeneration() {
         for (int i = 0; i < CACHED_JSON_GENERATION_THREADS; i++) {
-            CachedJsonGenerationThread thread = new CachedJsonGenerationThread(batches);
-            threads.add(thread);
-            futures.add(cachedJsonGeneratorExecutor.submit(thread));
+            futures.add(cachedJsonGeneratorExecutor.submit(new CachedJsonGenerationThread(batches)));
         }
     }
 
@@ -60,7 +58,6 @@ public class CachedJsonGenerator {
 
     @PreDestroy
     public void stopGeneration() {
-        threads.stream().forEach(CachedJsonGenerationThread::stopGeneration);
         futures.stream().forEach(f -> f.cancel(true));
     }
 }

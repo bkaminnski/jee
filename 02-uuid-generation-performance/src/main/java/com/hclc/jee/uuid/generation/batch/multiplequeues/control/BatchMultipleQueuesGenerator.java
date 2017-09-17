@@ -79,7 +79,6 @@ public class BatchMultipleQueuesGenerator {
 
     @PreDestroy
     public void stopGeneration() {
-        threads.stream().forEach(BatchMultipleQueuesGenerationThread::stopGeneration);
         futures.stream().forEach(f -> f.cancel(true));
     }
 }

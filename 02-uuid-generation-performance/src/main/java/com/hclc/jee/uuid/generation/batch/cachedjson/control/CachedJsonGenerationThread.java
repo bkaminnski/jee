@@ -8,9 +8,10 @@ import javax.json.JsonArrayBuilder;
 import java.util.concurrent.BlockingQueue;
 import java.util.stream.Stream;
 
+import static java.lang.Thread.currentThread;
+
 class CachedJsonGenerationThread implements Runnable {
     private final BlockingQueue<JsonArray> batches;
-    private volatile boolean continueGeneration = true;
 
     CachedJsonGenerationThread(BlockingQueue<JsonArray> batches) {
         this.batches = batches;
@@ -19,7 +20,7 @@ class CachedJsonGenerationThread implements Runnable {
     @Override
     public void run() {
         try {
-            while (continueGeneration) {
+            while (!currentThread().isInterrupted()) {
                 JsonArray batch = Stream.of(UuidsGenerator.generateBatch())
                         .collect(Json::createArrayBuilder, JsonArrayBuilder::add, JsonArrayBuilder::add)
                         .build();
@@ -28,9 +29,5 @@ class CachedJsonGenerationThread implements Runnable {
         } catch (InterruptedException ex) {
             // ignore
         }
-    }
-
-    void stopGeneration() {
-        continueGeneration = false;
     }
 }
