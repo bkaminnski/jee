@@ -239,7 +239,7 @@
 						"id": 4,
 						"legend": {
 							"alignAsTable": true,
-							"avg": true,
+							"avg": false,
 							"current": true,
 							"hideEmpty": false,
 							"max": true,
@@ -502,7 +502,7 @@
 						"id": 6,
 						"legend": {
 							"alignAsTable": true,
-							"avg": true,
+							"avg": false,
 							"current": true,
 							"max": true,
 							"min": false,
