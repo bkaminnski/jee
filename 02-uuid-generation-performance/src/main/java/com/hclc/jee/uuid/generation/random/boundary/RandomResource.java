@@ -6,6 +6,7 @@ import com.hclc.jee.uuid.generation.batch.multiplequeues.boundary.BatchMultipleQ
 import com.hclc.jee.uuid.generation.batch.singlequeue.boundary.BatchSingleQueueResource;
 import com.hclc.jee.uuid.generation.onebyone.boundary.OneByOneResource;
 import com.hclc.jee.uuid.generation.random.entity.GeneratorCallback;
+import com.hclc.jee.uuid.generation.reference.boundary.ReferenceResource;
 import com.hclc.jee.uuid.generation.straightforward.boundary.StraightforwardResource;
 
 import javax.ejb.Stateless;
@@ -20,6 +21,9 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 @Stateless
 @Path(value = "random")
 public class RandomResource {
+
+    @Inject
+    ReferenceResource referenceResource;
 
     @Inject
     StraightforwardResource straightforwardResource;
@@ -40,6 +44,7 @@ public class RandomResource {
     @Produces(APPLICATION_JSON)
     public Response random() {
         GeneratorCallback[] callbacks = {
+                () -> referenceResource.reference(),
                 () -> straightforwardResource.straightforward(),
                 () -> oneByOneResource.oneByOne(),
                 () -> batchSingleQueueResource.batchSingleQueue(),
