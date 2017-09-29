@@ -18,7 +18,7 @@ function mwUp() {
 	var dockerContainers = new DockerContainers();
 	var configureGrafanaFirstTime = !dockerContainers.exists('grafana-configured');
 
-	dockerContainers.run('wildfly-configured', 'wildfly-configured', '-p 8080:8080 -p 9990:9990 -p 8787:8787 --network jee');
+	dockerContainers.run('wildfly-configured', 'wildfly-configured', '-p 8080:8080 -p 9990:9990 -p 8787:8787 -p 7091:7091 --network jee');
 	dockerContainers.waitFor('wildfly-configured', 'WildFly Full 10.1.0.Final (WildFly Core 2.2.0.Final) started');
 
 	dockerContainers.run('alertmanager-configured', 'alertmanager-configured', '-p 9093:9093 --network jee');
