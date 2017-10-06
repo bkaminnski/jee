@@ -8,7 +8,6 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
 
 public class GenerationMetricInterceptor {
-
     private static final double NANO_TO_SECONDS = 0.000_000_001;
 
     @Inject
