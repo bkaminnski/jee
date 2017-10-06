@@ -22,8 +22,12 @@ public class MetricsResource {
     public Response get() {
         StreamingOutput streamingOutput = outputStream -> {
             Writer bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
-            TextFormat.write004(bufferedWriter, CollectorRegistry.defaultRegistry.metricFamilySamples());
-            bufferedWriter.flush();
+            try {
+                TextFormat.write004(bufferedWriter, CollectorRegistry.defaultRegistry.metricFamilySamples());
+                bufferedWriter.flush();
+            } finally {
+                bufferedWriter.close();
+            }
         };
 
         return Response.ok(streamingOutput).build();
