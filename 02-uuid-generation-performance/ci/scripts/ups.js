@@ -3,7 +3,7 @@
 load("./scripts/docker.js");
 load('./scripts/command.js');
 
-function mwUp() {
+function middlewareUp() {
 	var dockerNetworks = new DockerNetworks();
 	dockerNetworks.assureExisists('jee');
 

@@ -4,7 +4,7 @@ var timeStarted = new Date().getTime();
 
 load('./scripts/ups.js');
 
-mwUp();
+middlewareUp();
 cleanCompileAndDeploy();
 
 print('Script finished after ' + (new Date().getTime() - timeStarted) + ' millis');
