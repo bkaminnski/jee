@@ -1,5 +1,5 @@
 FROM prom/prometheus
-MAINTAINER Bartosz Kamiński, highcohesionloosecoupling.com
+MAINTAINER Bartosz Kamiński, http://highcohesionloosecoupling.com
 ADD prometheus.yml /etc/prometheus/
 ADD alerts.rules /etc/prometheus/
 CMD [ "-config.file=/etc/prometheus/prometheus.yml", \

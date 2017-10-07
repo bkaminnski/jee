@@ -1,5 +1,5 @@
 FROM wildfly
-MAINTAINER Bartosz Kamiński, highcohesionloosecoupling.com
+MAINTAINER Bartosz Kamiński, http://highcohesionloosecoupling.com
 RUN rm ${WILDFLY_HOME}/bin/standalone.conf \
   && ${WILDFLY_HOME}/bin/add-user.sh admin admin --silent
 ADD standalone.conf ${WILDFLY_HOME}/bin/
