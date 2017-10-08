@@ -58,7 +58,7 @@
 						"id": 1,
 						"legend": {
 							"alignAsTable": true,
-							"avg": true,
+							"avg": false,
 							"current": false,
 							"hideEmpty": false,
 							"max": true,
